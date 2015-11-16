@@ -4,7 +4,7 @@
 
 This is a simple (500 lines of code) graphics demo that shows animated
 fireworks.   I wrote it for two reasons: to see what Swift can do, and for
-something new and fun (I never do graphics stuff).
+something new and fun (I never do 3D graphics in my day job).
 
 This uses the "Metal" low-level 3D graphics API.  Mac OSX 10.11+ is required.
 
