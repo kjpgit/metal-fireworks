@@ -22,4 +22,6 @@ Features
 NOTE: Make sure to run it in release mode for lowest CPU use (edit the
 scheme).
 
+image::screen.jpg[]
+
 (c) 2015 Karl Pickett
