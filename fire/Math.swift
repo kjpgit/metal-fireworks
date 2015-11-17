@@ -76,6 +76,19 @@ struct Color4 {
     var a: Float
 }
 
+struct Float4 {
+    init (_ a: Float, _ b: Float, _ c: Float, _ d: Float) { 
+        self.a = a
+        self.b = b
+        self.c = c
+        self.d = d
+    }
+    var a: Float
+    var b: Float
+    var c: Float
+    var d: Float
+}
+
 // The length of these vectors are 1
 func RandomUniformUnitVector() -> Vector3 {
     let angle = random_range(0.0, Float(2.0 * PI))

@@ -3,4 +3,4 @@
 TEST = main.swift ../Fire.swift ../Math.swift ../Buffer.swift
 
 testme:
-	swiftc -o run $(TEST)
+	swiftc -O -whole-module-optimization -o run $(TEST)

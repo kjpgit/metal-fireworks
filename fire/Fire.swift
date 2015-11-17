@@ -221,9 +221,9 @@ private func render_flare_simple(fw: Firework, flare: Flare, time: Int64,
     }
     //print(p)
     draw_triangle_2d(&bv, p, flare.size)
-    for _ in 0..<3 { bc.append(color) }
+    draw_triangle_color(&bc, color)
     draw_triangle_2d_ups(&bv, p, flare.size)
-    for _ in 0..<3 { bc.append(color) }
+    draw_triangle_color(&bc, color)
 }
 
 
@@ -246,10 +246,10 @@ private func render_flare_trail(fw: Firework, flare: Flare, time: Int64,
     while true {
         let p = flare.pointAtTime(secs, orig_pos: fw.pos)
         draw_triangle_2d(&bv, p, size)
-        for _ in 0..<3 { bc.append(color) }
+        draw_triangle_color(&bc, color)
         if first {
             draw_triangle_2d_ups(&bv, p, size)
-            for _ in 0..<3 { bc.append(color) }
+            draw_triangle_color(&bc, color)
             first = false
         }
         
@@ -264,40 +264,57 @@ private func render_flare_trail(fw: Firework, flare: Flare, time: Int64,
 }
 
 
-private func draw_triangle_2d(inout bv: BufferWrapper, 
-        _ pos: Vector3, _ size: Float) {
-    bv.append(pos.x - size)
-    bv.append(pos.y)
-    bv.append(pos.z)
-    bv.append(1.0)
+func draw_triangle_2d(inout bv: BufferWrapper, _ pos: Vector3, _ size: Float) {
+    if !bv.has_available(12) {
+        return
+    }
 
-    bv.append(pos.x + size)
-    bv.append(pos.y)
-    bv.append(pos.z)
-    bv.append(1.0)
+    bv.append_raw(pos.x - size)
+    bv.append_raw(pos.y)
+    bv.append_raw(pos.z)
+    bv.append_raw(1.0)
 
-    bv.append(pos.x)
-    bv.append(pos.y + size)
-    bv.append(pos.z)
-    bv.append(1.0)
+    bv.append_raw(pos.x + size)
+    bv.append_raw(pos.y)
+    bv.append_raw(pos.z)
+    bv.append_raw(1.0)
+
+    bv.append_raw(pos.x)
+    bv.append_raw(pos.y + size)
+    bv.append_raw(pos.z)
+    bv.append_raw(1.0)
 }
 
 
 // upside down
-private func draw_triangle_2d_ups(inout bv: BufferWrapper, 
-        _ pos: Vector3, _ size: Float) {
-    bv.append(pos.x - size)
-    bv.append(pos.y)
-    bv.append(pos.z)
-    bv.append(1.0)
+private func draw_triangle_2d_ups(inout bv: BufferWrapper, _ pos: Vector3, _ size: Float) {
+    if !bv.has_available(12) {
+        return
+    }
 
-    bv.append(pos.x + size)
-    bv.append(pos.y)
-    bv.append(pos.z)
-    bv.append(1.0)
+    bv.append_raw(pos.x - size)
+    bv.append_raw(pos.y)
+    bv.append_raw(pos.z)
+    bv.append_raw(1.0)
 
-    bv.append(pos.x)
-    bv.append(pos.y - size)
-    bv.append(pos.z)
-    bv.append(1.0)
+    bv.append_raw(pos.x + size)
+    bv.append_raw(pos.y)
+    bv.append_raw(pos.z)
+    bv.append_raw(1.0)
+
+    bv.append_raw(pos.x)
+    bv.append_raw(pos.y - size)
+    bv.append_raw(pos.z)
+    bv.append_raw(1.0)
+}
+
+
+private func draw_triangle_color(inout b: BufferWrapper, _ color: Color4) {
+    if !b.has_available(12) {
+        return
+    }
+
+    b.append_raw_color4(color)
+    b.append_raw_color4(color)
+    b.append_raw_color4(color)
 }
