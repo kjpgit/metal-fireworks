@@ -1,6 +1,6 @@
 import Cocoa
 
-private let NR_PARTICLES            = 400
+private let NR_FLARES               = 400
 private let VELOCITY: Float         = 0.3
 private let GRAVITY: Float          = -0.08
 
@@ -20,9 +20,11 @@ private func get_random_color() -> Color4 {
 }
 
 
+// Return a position.
+// Simulate air drag - velocity tapers off exponentially
 private func _get_flight(vel: Float, secs: Float) -> Float {
     let x = log10f(1 + secs * 10.0)
-    return x * vel * VELOCITY
+    return x * vel
 }
 
 
@@ -48,11 +50,10 @@ private struct Flare {
         var ret = orig_pos
         ret.x += _get_flight(velocity_vec.x, secs: secs)
         ret.y += _get_flight(velocity_vec.y, secs: secs)
-        ret.z += _get_flight(velocity_vec.z, secs: secs)
+        //ret.z += _get_flight(velocity_vec.z, secs: secs)
 
         // Gravity
         ret.y += (GRAVITY / Float(2.0) * secs * secs)
-        //ret.z = 1 - ret.z
 
         return ret
     }
@@ -87,7 +88,12 @@ private class Firework {
             // for now, don't animate z, to stay in device space
             velocity.z = 0
 
+            // Aspect correction.  Otherwise we get ovalish fireworks.
             velocity.x *= aspect_x
+
+            // tune the velocity
+            velocity.x *= VELOCITY
+            velocity.y *= VELOCITY
 
             var color = orig_color
             color.r += random_range(-0.3, 0.3)
@@ -151,7 +157,7 @@ class FireworkScene {
 
         let type = random_range(0, 1)
         let fw = Firework(pos: pos, type: type)
-        fw.add_flares(NR_PARTICLES, start_time: current_time,
+        fw.add_flares(NR_FLARES, start_time: current_time,
             aspect_x: x_aspect_ratio)
         m_fireworks.append(fw)
 
@@ -232,8 +238,7 @@ private func render_flare_trail(fw: Firework, flare: Flare, time: Int64,
     var plume_secs = Float(0)
     while true {
         let p = flare.pointAtTime(secs, orig_pos: fw.pos)
-        //draw_triangle_2d(&bv, p, flare.size)
-        draw_triangle_2d(&bv, p, 0.005)
+        draw_triangle_2d(&bv, p, flare.size)
         for _ in 0..<3 {
             bc.append(color)
         }
