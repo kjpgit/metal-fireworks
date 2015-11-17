@@ -8,15 +8,14 @@ struct BufferWrapper {
 
     init (_ buffer: MTLBuffer) {
         let ptr = UnsafeMutablePointer<Float>(buffer.contents())
-        self.init(buffer: ptr, len: buffer.length)
+        self.init(buffer: ptr, bytelen: buffer.length)
     }
 
-    init (buffer: UnsafeMutablePointer<Float>, len: Int) {
-        precondition(len > 0)
+    init (buffer: UnsafeMutablePointer<Float>, bytelen: Int) {
+        precondition(bytelen > 0)
         pdata = buffer
-        plen = len
+        plen = bytelen / sizeof(Float)
         pos = 0
-        precondition(self.available() == len)
     }
 
     func available() -> Int {
@@ -28,8 +27,7 @@ struct BufferWrapper {
     }
 
     mutating func append(v: Float) {
-        //precondition(pos < plen)
-        if (pos >= plen) {
+        guard has_available(1) else {
             return
         }
         pdata[pos] = v

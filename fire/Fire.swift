@@ -264,53 +264,53 @@ private func render_flare_trail(fw: Firework, flare: Flare, time: Int64,
 }
 
 
-func draw_triangle_2d(inout bv: BufferWrapper, _ pos: Vector3, _ size: Float) {
-    if !bv.has_available(12) {
+func draw_triangle_2d(inout b: BufferWrapper, _ pos: Vector3, _ size: Float) {
+    guard b.has_available(12) else {
         return
     }
 
-    bv.append_raw(pos.x - size)
-    bv.append_raw(pos.y)
-    bv.append_raw(pos.z)
-    bv.append_raw(1.0)
+    b.append_raw(pos.x - size)
+    b.append_raw(pos.y)
+    b.append_raw(pos.z)
+    b.append_raw(1.0)
 
-    bv.append_raw(pos.x + size)
-    bv.append_raw(pos.y)
-    bv.append_raw(pos.z)
-    bv.append_raw(1.0)
+    b.append_raw(pos.x + size)
+    b.append_raw(pos.y)
+    b.append_raw(pos.z)
+    b.append_raw(1.0)
 
-    bv.append_raw(pos.x)
-    bv.append_raw(pos.y + size)
-    bv.append_raw(pos.z)
-    bv.append_raw(1.0)
+    b.append_raw(pos.x)
+    b.append_raw(pos.y + size)
+    b.append_raw(pos.z)
+    b.append_raw(1.0)
 }
 
 
 // upside down
-private func draw_triangle_2d_ups(inout bv: BufferWrapper, _ pos: Vector3, _ size: Float) {
-    if !bv.has_available(12) {
+private func draw_triangle_2d_ups(inout b: BufferWrapper, _ pos: Vector3, _ size: Float) {
+    guard b.has_available(12) else {
         return
     }
 
-    bv.append_raw(pos.x - size)
-    bv.append_raw(pos.y)
-    bv.append_raw(pos.z)
-    bv.append_raw(1.0)
+    b.append_raw(pos.x - size)
+    b.append_raw(pos.y)
+    b.append_raw(pos.z)
+    b.append_raw(1.0)
 
-    bv.append_raw(pos.x + size)
-    bv.append_raw(pos.y)
-    bv.append_raw(pos.z)
-    bv.append_raw(1.0)
+    b.append_raw(pos.x + size)
+    b.append_raw(pos.y)
+    b.append_raw(pos.z)
+    b.append_raw(1.0)
 
-    bv.append_raw(pos.x)
-    bv.append_raw(pos.y - size)
-    bv.append_raw(pos.z)
-    bv.append_raw(1.0)
+    b.append_raw(pos.x)
+    b.append_raw(pos.y - size)
+    b.append_raw(pos.z)
+    b.append_raw(1.0)
 }
 
 
 private func draw_triangle_color(inout b: BufferWrapper, _ color: Color4) {
-    if !b.has_available(12) {
+    guard b.has_available(12) else {
         return
     }
 
