@@ -214,7 +214,11 @@ private func render_flare_simple(fw: Firework, flare: Flare, time: Int64,
         return
     }
     let p = flare.pointAtTime(secs, orig_pos: fw.pos)
-    let color = flare.colorAtTime(secs)
+    var color = flare.colorAtTime(secs)
+    if secs > (flare.duration_secs - 0.1) {
+        // flash out
+        color.a = 1.0
+    }
     //print(p)
     draw_triangle_2d(&bv, p, flare.size)
     for _ in 0..<3 {
