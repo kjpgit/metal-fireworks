@@ -102,7 +102,7 @@ private class Firework {
             color.a = random_range(0.7, 4.0)
 
             let duration_secs = random_range(0.5, 3.0)
-            let trail_secs = random_range(0.2, 0.5)
+            let trail_secs = random_range(0.3, 0.7)
             let size = random_range(0.003, 0.005)
 
             let f = Flare(velocity_vec: velocity,
@@ -221,9 +221,9 @@ private func render_flare_simple(fw: Firework, flare: Flare, time: Int64,
     }
     //print(p)
     draw_triangle_2d(&bv, p, flare.size)
-    for _ in 0..<3 {
-        bc.append(color)
-    }
+    for _ in 0..<3 { bc.append(color) }
+    draw_triangle_2d_ups(&bv, p, flare.size)
+    for _ in 0..<3 { bc.append(color) }
 }
 
 
@@ -241,11 +241,16 @@ private func render_flare_trail(fw: Firework, flare: Flare, time: Int64,
     var color = flare.colorAtTime(secs)
     var plume_secs = Float(0)
     var size = flare.size
+    var first = true
+
     while true {
         let p = flare.pointAtTime(secs, orig_pos: fw.pos)
         draw_triangle_2d(&bv, p, size)
-        for _ in 0..<3 {
-            bc.append(color)
+        for _ in 0..<3 { bc.append(color) }
+        if first {
+            draw_triangle_2d_ups(&bv, p, size)
+            for _ in 0..<3 { bc.append(color) }
+            first = false
         }
         
         size *= 0.95
@@ -273,6 +278,26 @@ private func draw_triangle_2d(inout bv: BufferWrapper,
 
     bv.append(pos.x)
     bv.append(pos.y + size)
+    bv.append(pos.z)
+    bv.append(1.0)
+}
+
+
+// upside down
+private func draw_triangle_2d_ups(inout bv: BufferWrapper, 
+        _ pos: Vector3, _ size: Float) {
+    bv.append(pos.x - size)
+    bv.append(pos.y)
+    bv.append(pos.z)
+    bv.append(1.0)
+
+    bv.append(pos.x + size)
+    bv.append(pos.y)
+    bv.append(pos.z)
+    bv.append(1.0)
+
+    bv.append(pos.x)
+    bv.append(pos.y - size)
     bv.append(pos.z)
     bv.append(1.0)
 }
