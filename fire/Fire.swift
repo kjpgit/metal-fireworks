@@ -236,13 +236,15 @@ private func render_flare_trail(fw: Firework, flare: Flare, time: Int64,
     }
     var color = flare.colorAtTime(secs)
     var plume_secs = Float(0)
+    var size = flare.size
     while true {
         let p = flare.pointAtTime(secs, orig_pos: fw.pos)
-        draw_triangle_2d(&bv, p, flare.size)
+        draw_triangle_2d(&bv, p, size)
         for _ in 0..<3 {
             bc.append(color)
         }
         
+        size *= 0.95
         color.a *= PLUME_FADE
         secs -= PLUME_STEP_SECS
         plume_secs += PLUME_STEP_SECS
