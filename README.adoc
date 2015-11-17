@@ -22,6 +22,8 @@ Features
 NOTE: Make sure to run it in release mode for lowest CPU use (edit the
 scheme).
 
+Video: link:https://youtu.be/a7Brq0Qowxw[Watch On Youtube]
+
 image::screen.jpg[]
 
 (c) 2015 Karl Pickett
