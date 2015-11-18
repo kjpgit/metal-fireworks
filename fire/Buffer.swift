@@ -31,7 +31,7 @@ struct BufferWrapper {
             return
         }
         pdata[pos] = v
-        pos++
+        pos = pos &+ 1
     }
 
     mutating func append(v: Vector3) {
@@ -48,9 +48,8 @@ struct BufferWrapper {
     }
 
     mutating func append_raw(v: Float) {
-        // pos++ is slower.  bizarre.  sil is much different.
         pdata[pos] = v
-        pos++
+        pos = pos &+ 1
     }
 
     mutating func append_raw_color4(v: Color4) {
