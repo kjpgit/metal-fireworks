@@ -1,10 +1,11 @@
 import Cocoa
 import MetalKit
 
-let ConstantBufferSize = 1024*1024*10
+let BUFFER_BYTE_LEN = 10 * 1000 * 1000
 
 class GameViewController: NSViewController, MTKViewDelegate {
-    
+    override var acceptsFirstResponder: Bool { return true }
+
     var device: MTLDevice! = nil
     var commandQueue: MTLCommandQueue! = nil
     var pipelineState: MTLRenderPipelineState! = nil
@@ -34,6 +35,7 @@ class GameViewController: NSViewController, MTKViewDelegate {
         view.device = device
         view.sampleCount = 4
         
+        self.view.window!.makeFirstResponder(self)
         loadAssets()
 
         fw_scene = FireworkScene()
@@ -74,10 +76,10 @@ class GameViewController: NSViewController, MTKViewDelegate {
             print("Failed to create pipeline state, error \(error)")
         }
         
-        vertexBuffer = device.newBufferWithLength(ConstantBufferSize, options: [])
+        vertexBuffer = device.newBufferWithLength(BUFFER_BYTE_LEN, options: [])
         vertexBuffer.label = "vertices"
 
-        vertexColorBuffer = device.newBufferWithLength(ConstantBufferSize, options: [])
+        vertexColorBuffer = device.newBufferWithLength(BUFFER_BYTE_LEN, options: [])
         vertexColorBuffer.label = "colors"
     }
     
@@ -110,6 +112,12 @@ class GameViewController: NSViewController, MTKViewDelegate {
         
         if let renderPassDescriptor = view.currentRenderPassDescriptor, currentDrawable = view.currentDrawable
         {
+            // If you want to play with not entirely clearing the background, but fading it.
+            // I think it's too big of a hammer.
+            //renderPassDescriptor.colorAttachments[0].loadAction = .Load
+       
+            
+            
             let renderEncoder = commandBuffer.renderCommandEncoderWithDescriptor(renderPassDescriptor)
             renderEncoder.label = "render encoder"
             
@@ -164,4 +172,18 @@ class GameViewController: NSViewController, MTKViewDelegate {
             c.append(f)
         }
     }
+
+    override func keyDown(theEvent: NSEvent) {
+        print(theEvent)
+        if (theEvent.characters! == " ") {
+            clock_toggle_pause()
+        } else if (theEvent.characters! == "j") {
+            clock_step_pause(16667)
+        } else if (theEvent.characters! == "k") {
+            clock_step_pause(-16667)
+        } else {
+            super.keyDown(theEvent)
+        }
+    }
+    
 }
