@@ -32,7 +32,7 @@ private func _get_flight(vel: Float, secs: Float) -> Float {
 // We have the entire trajectory (path) from the beginning.
 private struct Flare {
     let velocity_vec: Vector3
-    let start_time: Int64
+    let start_time: Int
     let duration_secs: Float
 
     // How far back the trail goes (plume mode)
@@ -41,8 +41,10 @@ private struct Flare {
     let color: Color4
     let size: Float
 
-    func getSecondsElapsed(time: Int64) -> Float {
-        precondition(time >= start_time)
+    func getSecondsElapsed(time: Int) -> Float {
+        if time < start_time {
+            return 0
+        }
         return Float(time - start_time) / 1000000
     }
 
@@ -80,7 +82,7 @@ private class Firework {
         self.type = type
     }
 
-    func add_flares(count: Int, start_time: Int64, aspect_x: Float) {
+    func add_flares(count: Int, start_time: Int, aspect_x: Float) {
         let orig_color = get_random_color()
         for _ in 0..<count {
             var velocity = RandomUniformUnitVector()
@@ -119,8 +121,8 @@ private class Firework {
 
 class FireworkScene {
     private var m_fireworks = [Firework]()
-    private var next_launch: Int64
-    private var next_stats: Int64
+    private var next_launch: Int
+    private var next_stats: Int
     private var stats_max_bv: Int
     private var stats_max_bc: Int
     private var x_aspect_ratio: Float
@@ -146,7 +148,7 @@ class FireworkScene {
         self.stats_max_bc = 0
     }
 
-    func launch_firework(current_time: Int64) {
+    func launch_firework(current_time: Int) {
         let pos_x = random_range(-0.8, 0.8)
         let pos_y = random_range(0.0, 0.8)
 
@@ -173,7 +175,7 @@ class FireworkScene {
 
         if curtime > next_launch {
             launch_firework(curtime)
-            next_launch = curtime + Int64(random_range(100000, 700000))
+            next_launch = curtime + Int(random_range(100000, 700000))
         }
 
         for fw in m_fireworks {
@@ -207,7 +209,7 @@ class FireworkScene {
 }
 
 
-private func render_flare_simple(fw: Firework, flare: Flare, time: Int64, 
+private func render_flare_simple(fw: Firework, flare: Flare, time: Int, 
         inout bv: BufferWrapper, inout bc: BufferWrapper) {
     let secs = flare.getSecondsElapsed(time)
     if secs > flare.duration_secs {
@@ -227,7 +229,7 @@ private func render_flare_simple(fw: Firework, flare: Flare, time: Int64,
 }
 
 
-private func render_flare_trail(fw: Firework, flare: Flare, time: Int64, 
+private func render_flare_trail(fw: Firework, flare: Flare, time: Int, 
         inout bv: BufferWrapper, inout bc: BufferWrapper) {
 
     let PLUME_FADE: Float       = 0.90
