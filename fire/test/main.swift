@@ -2,17 +2,18 @@ import Cocoa
 
 print("starting test")
 let BUF_SIZE = 10000000
+let BUF_ELEMENTS = BUF_SIZE / sizeof(Float)
 let reps = 30000
 let scene = FireworkScene()
 
 srandom(0)
 
-var arr_v = UnsafeMutablePointer<Float>.alloc(BUF_SIZE / sizeof(Float))
-var arr_c = UnsafeMutablePointer<Float>.alloc(BUF_SIZE / sizeof(Float))
+var arr_v = UnsafeMutablePointer<Float>.alloc(BUF_ELEMENTS)
+var arr_c = UnsafeMutablePointer<Float>.alloc(BUF_ELEMENTS)
 
 for _ in 0..<reps {
-    var bv = BufferWrapper(buffer: arr_v, bytelen: BUF_SIZE)
-    var bc = BufferWrapper(buffer: arr_c, bytelen: BUF_SIZE)
+    var bv = BufferWrapper(buffer: arr_v, nr_elements: BUF_ELEMENTS)
+    var bc = BufferWrapper(buffer: arr_c, nr_elements: BUF_ELEMENTS)
     scene.update(bv: &bv, bc: &bc)
 }
 

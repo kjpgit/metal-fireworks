@@ -8,13 +8,13 @@ struct BufferWrapper {
 
     init (_ buffer: MTLBuffer) {
         let ptr = UnsafeMutablePointer<Float>(buffer.contents())
-        self.init(buffer: ptr, bytelen: buffer.length)
+        self.init(buffer: ptr, nr_elements: buffer.length / sizeof(Float))
     }
 
-    init (buffer: UnsafeMutablePointer<Float>, bytelen: Int) {
-        precondition(bytelen > 0)
+    init (buffer: UnsafeMutablePointer<Float>, nr_elements: Int) {
+        precondition(nr_elements > 0)
         pdata = buffer
-        plen = bytelen / sizeof(Float)
+        plen = nr_elements
         pos = 0
     }
 
