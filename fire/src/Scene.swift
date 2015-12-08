@@ -8,27 +8,25 @@ protocol Drawable {
 class FireworkScene {
     private var m_fireworks = [Drawable]()
     private var next_launch: TimeUS
-    private var next_stats: TimeUS
-    private var stats_max_bv: Int
-    private var stats_max_bc: Int
-    private var x_aspect_ratio: Float
+    private var next_stats: TimeUS = 0
+    private var stats_max_bv: Int = 0
+    private var stats_max_bc: Int = 0
+    private var x_aspect_ratio: Float = 0
 
     init() {
+        // Launch the first firework immediately
         next_launch = get_current_timestamp()
-        next_stats = 0
-        stats_max_bv = 0
-        stats_max_bc = 0
-        x_aspect_ratio = 0.1
         arm_stats()
     }
     
     func set_screen_size(width width: Float, height: Float) {
-        print("size change \(width) x \(height)")
+        print("screen size change: \(width) x \(height)")
         let v = height / width
         x_aspect_ratio = v
     }
 
     func arm_stats() {
+        // Print buffer stats every second
         self.next_stats = get_current_timestamp() + 1000000
         self.stats_max_bv = 0
         self.stats_max_bc = 0
@@ -74,8 +72,8 @@ class FireworkScene {
             self.stats_max_bc = bc.pos
         }
         if self.next_stats < curtime {
-            print("stats: bc \(self.stats_max_bc)")
             print("stats: bv \(self.stats_max_bv)")
+            print("stats: bc \(self.stats_max_bc)")
             self.arm_stats()
         }
     }
