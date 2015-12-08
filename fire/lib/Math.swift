@@ -1,7 +1,7 @@
 import func Foundation.random
-import func Foundation.sqrt
-import func Foundation.sin
-import func Foundation.cos
+import func Foundation.sqrtf
+import func Foundation.sinf
+import func Foundation.cosf
 
 
 private let PI = 3.1415926535
@@ -14,7 +14,7 @@ struct Vector3 {
     var z: Float
 
     func length() -> Float {
-        return sqrt((x * x) + (y * y) + (z * z)) 
+        return sqrtf((x * x) + (y * y) + (z * z)) 
     }
 }
 
@@ -81,14 +81,14 @@ more points clustered at the poles)
 */
 func RandomUniformUnitVector() -> Vector3 {
     let angle = random_range(0.0, Float(2.0 * PI))
-    let r = sqrt(random_range(0.0, 1.0))
+    let r = sqrtf(random_range(0.0, 1.0))
     let hemisphere = Float(1.0) // random_choose(-1.0, 1.0)
-    let z = sqrt(1.0 - r*r) * hemisphere
-    return Vector3(x: r * cos(angle), y: r * sin(angle), z: z)
+    let z = sqrtf(1.0 - r*r) * hemisphere
+    return Vector3(x: r * cosf(angle), y: r * sinf(angle), z: z)
 }
 
 
 func RandomUniformUnitVector2D() -> Vector3 {
     let angle = random_range(0.0, Float(2.0 * PI))
-    return Vector3(x: cos(angle), y: sin(angle), z: 0)
+    return Vector3(x: cosf(angle), y: sinf(angle), z: 0)
 }
