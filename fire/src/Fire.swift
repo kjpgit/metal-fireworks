@@ -28,7 +28,7 @@ private func _get_flight(vel: Float, secs: Float) -> Float {
 }
 
 
-// Record the starting point of a flare.
+// Record the starting point of a flare (aka particle).
 // We have the entire trajectory (path) from the beginning.
 struct Flare {
     let velocity_vec: Vector3
