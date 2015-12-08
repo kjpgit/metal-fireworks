@@ -16,6 +16,7 @@
 		CB6490F71C17698600400DD0 /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6490F41C17698600400DD0 /* Buffer.swift */; };
 		CB6490F81C17698600400DD0 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6490F51C17698600400DD0 /* Clock.swift */; };
 		CB6490F91C17698600400DD0 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6490F61C17698600400DD0 /* Math.swift */; };
+		CBC7DDDC1C178D6500894ABE /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC7DDDB1C178D6500894ABE /* Scene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		CB6490F41C17698600400DD0 /* Buffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Buffer.swift; path = lib/Buffer.swift; sourceTree = "<group>"; };
 		CB6490F51C17698600400DD0 /* Clock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Clock.swift; path = lib/Clock.swift; sourceTree = "<group>"; };
 		CB6490F61C17698600400DD0 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Math.swift; path = lib/Math.swift; sourceTree = "<group>"; };
+		CBC7DDDB1C178D6500894ABE /* Scene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Scene.swift; path = src/Scene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 		CB1775041BF7B84300E18992 /* fire */ = {
 			isa = PBXGroup;
 			children = (
+				CBC7DDDB1C178D6500894ABE /* Scene.swift */,
 				CB6490F41C17698600400DD0 /* Buffer.swift */,
 				CB6490F51C17698600400DD0 /* Clock.swift */,
 				CB6490F61C17698600400DD0 /* Math.swift */,
@@ -150,6 +153,7 @@
 				CB17750A1BF7B84300E18992 /* Shaders.metal in Sources */,
 				CB1775081BF7B84300E18992 /* GameViewController.swift in Sources */,
 				CB6490F91C17698600400DD0 /* Math.swift in Sources */,
+				CBC7DDDC1C178D6500894ABE /* Scene.swift in Sources */,
 				CB1775061BF7B84300E18992 /* AppDelegate.swift in Sources */,
 				CB6490F71C17698600400DD0 /* Buffer.swift in Sources */,
 				CB6490F31C17697A00400DD0 /* Fire.swift in Sources */,

@@ -1,7 +1,6 @@
 import func Foundation.log10f
 
 
-private let NR_FLARES               = 400
 private let VELOCITY: Float         = 0.3
 private let GRAVITY: Float          = -0.08
 
@@ -31,7 +30,7 @@ private func _get_flight(vel: Float, secs: Float) -> Float {
 
 // Record the starting point of a flare.
 // We have the entire trajectory (path) from the beginning.
-private struct Flare {
+struct Flare {
     let velocity_vec: Vector3
     let start_time: TimeUS
     let duration_secs: Float
@@ -71,7 +70,7 @@ private struct Flare {
 }
 
 
-private class Firework {
+class Firework : Drawable {
     var pos: Vector3
     let type: Int
     var m_flares = [Flare]()
@@ -83,7 +82,8 @@ private class Firework {
         self.type = type
     }
 
-    func add_flares(count: Int, start_time: TimeUS, aspect_x: Float) {
+    func add_flares(start_time: TimeUS, aspect_x: Float) {
+        let count = 400
         let orig_color = get_random_color()
         for _ in 0..<count {
             var velocity = RandomUniformUnitVector()
@@ -118,97 +118,26 @@ private class Firework {
             m_flares.append(f)
         }
     }
-}
 
-
-class FireworkScene {
-    private var m_fireworks = [Firework]()
-    private var next_launch: TimeUS
-    private var next_stats: TimeUS
-    private var stats_max_bv: Int
-    private var stats_max_bc: Int
-    private var x_aspect_ratio: Float
-
-    init() {
-        next_launch = get_current_timestamp()
-        next_stats = 0
-        stats_max_bv = 0
-        stats_max_bc = 0
-        x_aspect_ratio = 0.1
-        arm_stats()
-    }
-    
-    func set_screen_size(width width: Float, height: Float) {
-        print("size change \(width) x \(height)")
-        let v = height / width
-        x_aspect_ratio = v
-    }
-
-    func arm_stats() {
-        self.next_stats = get_current_timestamp() + 1000000
-        self.stats_max_bv = 0
-        self.stats_max_bc = 0
-    }
-
-    func launch_firework(current_time: TimeUS) {
-        let pos_x = random_range(-0.8, 0.8)
-        let pos_y = random_range(0.0, 0.8)
-
-        // It's cool to set this at -0.2 and see the fireworks as they pop through the back plane
-        let pos_z = Float(0.1)
-
-        let pos = Vector3(x: pos_x, y: pos_y, z: pos_z)
-
-        let type = random_range(0, 1)
-        let fw = Firework(pos: pos, type: type)
-        fw.add_flares(NR_FLARES, start_time: current_time,
-            aspect_x: x_aspect_ratio)
-        m_fireworks.append(fw)
-
-        //print("launching \(m_fireworks.count) \(type)")
-
-        while m_fireworks.count > 10 {
-            m_fireworks.removeAtIndex(0)
-        }
-    }
-
-    func update(inout bv bv: BufferWrapper, inout bc: BufferWrapper) {
-        let curtime = get_current_timestamp()
-
-        if curtime > next_launch {
-            launch_firework(curtime)
-            next_launch = curtime + TimeUS(random_range(100000, 700000))
-        }
-
-        for fw in m_fireworks {
-            if fw.type == 0 {
-                // classic particle only
-                for flare in fw.m_flares {
-                    render_flare_simple(fw, flare: flare, 
-                            time: curtime, bv: &bv, bc: &bc) 
-                }
-            } else {
-                // long trail
-                for flare in fw.m_flares {
-                    render_flare_trail(fw, flare: flare, 
-                            time: curtime, bv: &bv, bc: &bc) 
-                }
+    func draw(time: TimeUS, 
+            inout bv: BufferWrapper, 
+            inout bc: BufferWrapper) {
+        if self.type == 0 {
+            // classic particle only
+            for flare in self.m_flares {
+                render_flare_simple(self, flare: flare, 
+                        time: time, bv: &bv, bc: &bc) 
+            }
+        } else {
+            // long trail
+            for flare in self.m_flares {
+                render_flare_trail(self, flare: flare, 
+                        time: time, bv: &bv, bc: &bc) 
             }
         }
-
-        if bv.pos > self.stats_max_bv {
-            self.stats_max_bv = bv.pos
-        }
-        if bc.pos > self.stats_max_bc {
-            self.stats_max_bc = bc.pos
-        }
-        if self.next_stats < curtime {
-            print("stats: bc \(self.stats_max_bc)")
-            print("stats: bv \(self.stats_max_bv)")
-            self.arm_stats()
-        }
     }
 }
+
 
 
 private func render_flare_simple(fw: Firework, flare: Flare, time: TimeUS, 
@@ -268,7 +197,8 @@ private func render_flare_trail(fw: Firework, flare: Flare, time: TimeUS,
 }
 
 
-func draw_triangle_2d(inout b: BufferWrapper, _ pos: Vector3, _ size: Float) {
+private func draw_triangle_2d(inout b: BufferWrapper, 
+                              _ pos: Vector3, _ size: Float) {
     guard b.has_available(12) else {
         return
     }
