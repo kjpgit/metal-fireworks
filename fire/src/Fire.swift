@@ -32,7 +32,6 @@ private func _get_flight(vel: Float, secs: Float) -> Float {
 // We have the entire trajectory (path) from the beginning.
 struct Flare {
     let velocity_vec: Vector3
-    let start_time: TimeUS
     let duration_secs: Float
 
     // How far back the trail goes (plume mode)
@@ -40,13 +39,6 @@ struct Flare {
 
     let color: Color4
     let size: Float
-
-    func getSecondsElapsed(time: TimeUS) -> Float {
-        if time < start_time {
-            return 0
-        }
-        return Float(time - start_time) / 1000000
-    }
 
     func pointAtTime(secs: Float, orig_pos: Vector3) -> Vector3 {
         var ret = orig_pos
@@ -71,18 +63,28 @@ struct Flare {
 
 
 class Firework : Drawable {
-    var pos: Vector3
+    let pos: Vector3
+    let start_time: TimeUS
     let type: Int
     var m_flares = [Flare]()
 
-    init(pos: Vector3, type: Int) {
-        precondition(type >= 0)
-        precondition(type <= 1)
-        self.pos = pos
-        self.type = type
+    // Create a random firework
+    init(time: TimeUS, aspect_x: Float) {
+        let pos_x = random_range(-0.8, 0.8)
+        let pos_y = random_range(0.0, 0.8)
+
+        // It's cool to set this at -0.2 and see the fireworks as they pop
+        // through the back plane
+        let pos_z = Float(0.1)
+
+        self.pos = Vector3(x: pos_x, y: pos_y, z: pos_z)
+        self.type = random_range(0, 1)
+        self.start_time = time
+
+        self.add_flares(aspect_x)
     }
 
-    func add_flares(start_time: TimeUS, aspect_x: Float) {
+    private func add_flares(aspect_x: Float) {
         let count = 400
         let orig_color = get_random_color()
         for _ in 0..<count {
@@ -110,7 +112,6 @@ class Firework : Drawable {
             let size = random_range(0.003, 0.005)
 
             let f = Flare(velocity_vec: velocity,
-                        start_time: start_time,
                         duration_secs: duration_secs,
                         trail_secs: trail_secs,
                         color: color, 
@@ -119,26 +120,33 @@ class Firework : Drawable {
         }
     }
 
+    func getSecondsElapsed(time: TimeUS) -> Float {
+        if time < start_time {
+            return 0
+        }
+        return Float(time - start_time) / 1000000
+    }
+
     func draw(time: TimeUS, 
             inout bv: BufferWrapper, 
             inout bc: BufferWrapper) {
+        let secs = self.getSecondsElapsed(time)
         if self.type == 0 {
             // classic particle only
             for flare in self.m_flares {
-                render_flare_simple(flare, time: time, bv: &bv, bc: &bc) 
+                render_flare_simple(flare, secs: secs, bv: &bv, bc: &bc) 
             }
         } else {
             // long trail
             for flare in self.m_flares {
-                render_flare_trail(flare, time: time, bv: &bv, bc: &bc) 
+                render_flare_trail(flare, secs: secs, bv: &bv, bc: &bc) 
             }
         }
     }
 
-    func render_flare_simple(flare: Flare, time: TimeUS, 
+    func render_flare_simple(flare: Flare, secs: Float,
                              inout bv: BufferWrapper, inout bc: BufferWrapper) 
     {
-        let secs = flare.getSecondsElapsed(time)
         if secs > flare.duration_secs {
             return
         }
@@ -156,14 +164,14 @@ class Firework : Drawable {
     }
 
 
-    func render_flare_trail(flare: Flare, time: TimeUS, 
+    func render_flare_trail(flare: Flare, secs: Float,
                             inout bv: BufferWrapper, inout bc: BufferWrapper) 
     {
         let PLUME_FADE: Float       = 0.90
         // If this is too small, flickering happens when the dots move
         let PLUME_STEP_SECS: Float  = 0.02
 
-        var secs = flare.getSecondsElapsed(time)
+        var secs = secs
         if secs > flare.duration_secs {
             return
         }

@@ -33,17 +33,7 @@ class FireworkScene {
     }
 
     func launch_firework(current_time: TimeUS) {
-        let pos_x = random_range(-0.8, 0.8)
-        let pos_y = random_range(0.0, 0.8)
-
-        // It's cool to set this at -0.2 and see the fireworks as they pop through the back plane
-        let pos_z = Float(0.1)
-
-        let pos = Vector3(x: pos_x, y: pos_y, z: pos_z)
-
-        let type = random_range(0, 1)
-        let fw = Firework(pos: pos, type: type)
-        fw.add_flares(current_time, aspect_x: x_aspect_ratio)
+        let fw = Firework(time: current_time, aspect_x: x_aspect_ratio)
         m_fireworks.append(fw)
 
         //print("launching \(m_fireworks.count) \(type)")
