@@ -1,4 +1,4 @@
-import MetalKit
+import protocol MetalKit.MTLBuffer
 
 
 // Safe wrapper for an array of floats.
