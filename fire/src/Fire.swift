@@ -125,73 +125,70 @@ class Firework : Drawable {
         if self.type == 0 {
             // classic particle only
             for flare in self.m_flares {
-                render_flare_simple(self, flare: flare, 
-                        time: time, bv: &bv, bc: &bc) 
+                render_flare_simple(flare, time: time, bv: &bv, bc: &bc) 
             }
         } else {
             // long trail
             for flare in self.m_flares {
-                render_flare_trail(self, flare: flare, 
-                        time: time, bv: &bv, bc: &bc) 
+                render_flare_trail(flare, time: time, bv: &bv, bc: &bc) 
             }
         }
     }
-}
 
-
-
-private func render_flare_simple(fw: Firework, flare: Flare, time: TimeUS, 
-        inout bv: BufferWrapper, inout bc: BufferWrapper) {
-    let secs = flare.getSecondsElapsed(time)
-    if secs > flare.duration_secs {
-        return
-    }
-    let p = flare.pointAtTime(secs, orig_pos: fw.pos)
-    var color = flare.colorAtTime(secs)
-    if secs > (flare.duration_secs - 0.1) {
-        // flash out
-        color.a = 1.0
-    }
-    //print(p)
-    draw_triangle_2d(&bv, p, flare.size)
-    draw_triangle_color(&bc, color)
-    draw_triangle_2d_ups(&bv, p, flare.size)
-    draw_triangle_color(&bc, color)
-}
-
-
-private func render_flare_trail(fw: Firework, flare: Flare, time: TimeUS, 
-        inout bv: BufferWrapper, inout bc: BufferWrapper) {
-
-    let PLUME_FADE: Float       = 0.90
-    // If this is too small, flickering happens when the dots move
-    let PLUME_STEP_SECS: Float  = 0.02
-
-    var secs = flare.getSecondsElapsed(time)
-    if secs > flare.duration_secs {
-        return
-    }
-    var color = flare.colorAtTime(secs)
-    var plume_secs = Float(0)
-    var size = flare.size
-    var first = true
-
-    while true {
-        let p = flare.pointAtTime(secs, orig_pos: fw.pos)
-        draw_triangle_2d(&bv, p, size)
-        draw_triangle_color(&bc, color)
-        if first {
-            draw_triangle_2d_ups(&bv, p, size)
-            draw_triangle_color(&bc, color)
-            first = false
-        }
-        
-        size *= 0.95
-        color.a *= PLUME_FADE
-        secs -= PLUME_STEP_SECS
-        plume_secs += PLUME_STEP_SECS
-        if secs < 0 || plume_secs > flare.trail_secs {
+    func render_flare_simple(flare: Flare, time: TimeUS, 
+                             inout bv: BufferWrapper, inout bc: BufferWrapper) 
+    {
+        let secs = flare.getSecondsElapsed(time)
+        if secs > flare.duration_secs {
             return
+        }
+        let p = flare.pointAtTime(secs, orig_pos: self.pos)
+        var color = flare.colorAtTime(secs)
+        if secs > (flare.duration_secs - 0.1) {
+            // flash out
+            color.a = 1.0
+        }
+        //print(p)
+        draw_triangle_2d(&bv, p, flare.size)
+        draw_triangle_color(&bc, color)
+        draw_triangle_2d_ups(&bv, p, flare.size)
+        draw_triangle_color(&bc, color)
+    }
+
+
+    func render_flare_trail(flare: Flare, time: TimeUS, 
+                            inout bv: BufferWrapper, inout bc: BufferWrapper) 
+    {
+        let PLUME_FADE: Float       = 0.90
+        // If this is too small, flickering happens when the dots move
+        let PLUME_STEP_SECS: Float  = 0.02
+
+        var secs = flare.getSecondsElapsed(time)
+        if secs > flare.duration_secs {
+            return
+        }
+        var color = flare.colorAtTime(secs)
+        var plume_secs = Float(0)
+        var size = flare.size
+        var first = true
+
+        while true {
+            let p = flare.pointAtTime(secs, orig_pos: self.pos)
+            draw_triangle_2d(&bv, p, size)
+            draw_triangle_color(&bc, color)
+            if first {
+                draw_triangle_2d_ups(&bv, p, size)
+                draw_triangle_color(&bc, color)
+                first = false
+            }
+            
+            size *= 0.95
+            color.a *= PLUME_FADE
+            secs -= PLUME_STEP_SECS
+            plume_secs += PLUME_STEP_SECS
+            if secs < 0 || plume_secs > flare.trail_secs {
+                return
+            }
         }
     }
 }
