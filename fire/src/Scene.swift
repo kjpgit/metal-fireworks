@@ -25,19 +25,16 @@ class FireworkScene {
         x_aspect_ratio = v
     }
 
-    func arm_stats() {
+    private func arm_stats() {
         // Print buffer stats every second
         self.next_stats = get_current_timestamp() + 1000000
         self.stats_max_bv = 0
         self.stats_max_bc = 0
     }
 
-    func launch_firework(current_time: TimeUS) {
+    private func launch_firework(current_time: TimeUS) {
         let fw = Firework(time: current_time, aspect_x: x_aspect_ratio)
         m_fireworks.append(fw)
-
-        //print("launching \(m_fireworks.count) \(type)")
-
         while m_fireworks.count > 10 {
             m_fireworks.removeAtIndex(0)
         }
