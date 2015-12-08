@@ -1,4 +1,5 @@
-import Cocoa
+import func Foundation.log10f
+
 
 private let NR_FLARES               = 400
 private let VELOCITY: Float         = 0.3
