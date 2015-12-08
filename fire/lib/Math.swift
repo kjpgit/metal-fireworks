@@ -1,4 +1,8 @@
-import Foundation
+import func Foundation.random
+import func Foundation.sqrt
+import func Foundation.sin
+import func Foundation.cos
+
 
 private let PI = 3.1415926535
 private let RANDOM_RANGE_DEBUG = false
