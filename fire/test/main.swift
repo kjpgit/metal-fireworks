@@ -1,4 +1,4 @@
-import Cocoa
+import func Foundation.srandom
 
 print("starting test")
 let BUF_SIZE = 10000000
