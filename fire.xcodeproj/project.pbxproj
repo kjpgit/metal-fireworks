@@ -12,10 +12,10 @@
 		CB17750A1BF7B84300E18992 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = CB1775091BF7B84300E18992 /* Shaders.metal */; };
 		CB17750C1BF7B84300E18992 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB17750B1BF7B84300E18992 /* Assets.xcassets */; };
 		CB17750F1BF7B84300E18992 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB17750D1BF7B84300E18992 /* MainMenu.xib */; };
-		CB1775181BF7C51F00E18992 /* Fire.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1775161BF7C51F00E18992 /* Fire.swift */; };
-		CB1775191BF7C51F00E18992 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1775171BF7C51F00E18992 /* Math.swift */; };
-		CB5A88581BF944F600480D3F /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5A88571BF944F600480D3F /* Buffer.swift */; };
-		CBAC7B071BFBD35C0058B4D5 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAC7B061BFBD35C0058B4D5 /* Clock.swift */; };
+		CB6490F31C17697A00400DD0 /* Fire.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6490F21C17697A00400DD0 /* Fire.swift */; };
+		CB6490F71C17698600400DD0 /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6490F41C17698600400DD0 /* Buffer.swift */; };
+		CB6490F81C17698600400DD0 /* Clock.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6490F51C17698600400DD0 /* Clock.swift */; };
+		CB6490F91C17698600400DD0 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB6490F61C17698600400DD0 /* Math.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,10 +26,10 @@
 		CB17750B1BF7B84300E18992 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CB17750E1BF7B84300E18992 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		CB1775101BF7B84300E18992 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CB1775161BF7C51F00E18992 /* Fire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fire.swift; sourceTree = "<group>"; };
-		CB1775171BF7C51F00E18992 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
-		CB5A88571BF944F600480D3F /* Buffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Buffer.swift; sourceTree = "<group>"; };
-		CBAC7B061BFBD35C0058B4D5 /* Clock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Clock.swift; path = fire/Clock.swift; sourceTree = "<group>"; };
+		CB6490F21C17697A00400DD0 /* Fire.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Fire.swift; path = src/Fire.swift; sourceTree = "<group>"; };
+		CB6490F41C17698600400DD0 /* Buffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Buffer.swift; path = lib/Buffer.swift; sourceTree = "<group>"; };
+		CB6490F51C17698600400DD0 /* Clock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Clock.swift; path = lib/Clock.swift; sourceTree = "<group>"; };
+		CB6490F61C17698600400DD0 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Math.swift; path = lib/Math.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +46,6 @@
 		CB1774F91BF7B84300E18992 = {
 			isa = PBXGroup;
 			children = (
-				CBAC7B061BFBD35C0058B4D5 /* Clock.swift */,
 				CB1775041BF7B84300E18992 /* fire */,
 				CB1775031BF7B84300E18992 /* Products */,
 			);
@@ -63,9 +62,10 @@
 		CB1775041BF7B84300E18992 /* fire */ = {
 			isa = PBXGroup;
 			children = (
-				CB5A88571BF944F600480D3F /* Buffer.swift */,
-				CB1775161BF7C51F00E18992 /* Fire.swift */,
-				CB1775171BF7C51F00E18992 /* Math.swift */,
+				CB6490F41C17698600400DD0 /* Buffer.swift */,
+				CB6490F51C17698600400DD0 /* Clock.swift */,
+				CB6490F61C17698600400DD0 /* Math.swift */,
+				CB6490F21C17697A00400DD0 /* Fire.swift */,
 				CB1775051BF7B84300E18992 /* AppDelegate.swift */,
 				CB1775071BF7B84300E18992 /* GameViewController.swift */,
 				CB1775091BF7B84300E18992 /* Shaders.metal */,
@@ -146,13 +146,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB6490F81C17698600400DD0 /* Clock.swift in Sources */,
 				CB17750A1BF7B84300E18992 /* Shaders.metal in Sources */,
 				CB1775081BF7B84300E18992 /* GameViewController.swift in Sources */,
+				CB6490F91C17698600400DD0 /* Math.swift in Sources */,
 				CB1775061BF7B84300E18992 /* AppDelegate.swift in Sources */,
-				CBAC7B071BFBD35C0058B4D5 /* Clock.swift in Sources */,
-				CB1775181BF7C51F00E18992 /* Fire.swift in Sources */,
-				CB1775191BF7C51F00E18992 /* Math.swift in Sources */,
-				CB5A88581BF944F600480D3F /* Buffer.swift in Sources */,
+				CB6490F71C17698600400DD0 /* Buffer.swift in Sources */,
+				CB6490F31C17697A00400DD0 /* Fire.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
