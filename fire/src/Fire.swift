@@ -95,8 +95,9 @@ private class Firework {
             velocity.x *= aspect_x
 
             // tune the velocity
-            velocity.x *= VELOCITY
-            velocity.y *= VELOCITY
+            let speed_variance = random_range(1.0, 1.5)
+            velocity.x *= VELOCITY * speed_variance
+            velocity.y *= VELOCITY * speed_variance
 
             var color = orig_color
             color.r += random_range(-0.3, 0.3)
