@@ -144,6 +144,7 @@ class Firework : Drawable {
         }
     }
 
+    @inline(never)
     func render_flare_simple(flare: Flare, secs: Float,
                              inout bv: BufferWrapper, inout bc: BufferWrapper) 
     {
@@ -164,6 +165,7 @@ class Firework : Drawable {
     }
 
 
+    @inline(never)
     func render_flare_trail(flare: Flare, secs: Float,
                             inout bv: BufferWrapper, inout bc: BufferWrapper) 
     {
