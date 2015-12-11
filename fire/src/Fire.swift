@@ -158,9 +158,10 @@ class Firework : Drawable {
             color.a = 1.0
         }
         //print(p)
-        draw_triangle_2d(&bv, p, flare.size)
+        let size = flare.size
+        draw_triangle_2d(&bv, p, width: size, height: size)
         draw_triangle_color(&bc, color)
-        draw_triangle_2d_ups(&bv, p, flare.size)
+        draw_triangle_2d(&bv, p, width: size, height: -size)
         draw_triangle_color(&bc, color)
     }
 
@@ -184,10 +185,10 @@ class Firework : Drawable {
 
         while true {
             let p = flare.pointAtTime(secs, orig_pos: self.pos)
-            draw_triangle_2d(&bv, p, size)
+            draw_triangle_2d(&bv, p, width: size, height: size)
             draw_triangle_color(&bc, color)
             if first {
-                draw_triangle_2d_ups(&bv, p, size)
+                draw_triangle_2d(&bv, p, width: size, height: -size)
                 draw_triangle_color(&bc, color)
                 first = false
             }
@@ -205,49 +206,29 @@ class Firework : Drawable {
 
 
 private func draw_triangle_2d(inout b: BufferWrapper, 
-                              _ pos: Vector3, _ size: Float) {
+        _ pos: Vector3, width: Float, height: Float) {
     guard b.has_available(12) else {
         return
     }
 
-    b.append_raw(pos.x - size)
+    b.append_raw(pos.x - width)
     b.append_raw(pos.y)
     b.append_raw(pos.z)
     b.append_raw(1.0)
 
-    b.append_raw(pos.x + size)
+    b.append_raw(pos.x + width)
     b.append_raw(pos.y)
     b.append_raw(pos.z)
     b.append_raw(1.0)
 
     b.append_raw(pos.x)
-    b.append_raw(pos.y + size)
+    b.append_raw(pos.y + height)
     b.append_raw(pos.z)
     b.append_raw(1.0)
 }
 
 
-// upside down
-private func draw_triangle_2d_ups(inout b: BufferWrapper, _ pos: Vector3, _ size: Float) {
-    guard b.has_available(12) else {
-        return
-    }
 
-    b.append_raw(pos.x - size)
-    b.append_raw(pos.y)
-    b.append_raw(pos.z)
-    b.append_raw(1.0)
-
-    b.append_raw(pos.x + size)
-    b.append_raw(pos.y)
-    b.append_raw(pos.z)
-    b.append_raw(1.0)
-
-    b.append_raw(pos.x)
-    b.append_raw(pos.y - size)
-    b.append_raw(pos.z)
-    b.append_raw(1.0)
-}
 
 
 private func draw_triangle_color(inout b: BufferWrapper, _ color: Color4) {
