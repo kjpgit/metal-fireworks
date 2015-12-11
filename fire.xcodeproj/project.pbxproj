@@ -20,7 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CB1775021BF7B84300E18992 /* fire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = fire.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB1775021BF7B84300E18992 /* Fireworks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fireworks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB1775051BF7B84300E18992 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB1775071BF7B84300E18992 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		CB1775091BF7B84300E18992 /* Shaders.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shaders.metal; sourceTree = "<group>"; };
@@ -56,7 +56,7 @@
 		CB1775031BF7B84300E18992 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CB1775021BF7B84300E18992 /* fire.app */,
+				CB1775021BF7B84300E18992 /* Fireworks.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -82,9 +82,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CB1775011BF7B84300E18992 /* fire */ = {
+		CB1775011BF7B84300E18992 /* Fireworks */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CB1775131BF7B84300E18992 /* Build configuration list for PBXNativeTarget "fire" */;
+			buildConfigurationList = CB1775131BF7B84300E18992 /* Build configuration list for PBXNativeTarget "Fireworks" */;
 			buildPhases = (
 				CB1774FE1BF7B84300E18992 /* Sources */,
 				CB1774FF1BF7B84300E18992 /* Frameworks */,
@@ -94,9 +94,9 @@
 			);
 			dependencies = (
 			);
-			name = fire;
+			name = Fireworks;
 			productName = fire;
-			productReference = CB1775021BF7B84300E18992 /* fire.app */;
+			productReference = CB1775021BF7B84300E18992 /* Fireworks.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -127,7 +127,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CB1775011BF7B84300E18992 /* fire */,
+				CB1775011BF7B84300E18992 /* Fireworks */,
 			);
 		};
 /* End PBXProject section */
@@ -261,7 +261,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = fire/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = karlito.fire;
+				PRODUCT_BUNDLE_IDENTIFIER = karlito.fireworks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -273,7 +273,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = fire/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = karlito.fire;
+				PRODUCT_BUNDLE_IDENTIFIER = karlito.fireworks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 			};
@@ -291,7 +291,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CB1775131BF7B84300E18992 /* Build configuration list for PBXNativeTarget "fire" */ = {
+		CB1775131BF7B84300E18992 /* Build configuration list for PBXNativeTarget "Fireworks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CB1775141BF7B84300E18992 /* Debug */,
