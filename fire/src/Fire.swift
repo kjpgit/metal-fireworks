@@ -92,6 +92,10 @@ class Firework : Drawable {
     private func add_flares(aspect_x: Float) {
         let count = 400
         let orig_color = get_random_color()
+
+        // Reserve exact storage space.  It saves a bit of wasted memory.
+        m_flares.reserveCapacity(count)
+
         for _ in 0..<count {
             var velocity = RandomUniformUnitVector()
 
