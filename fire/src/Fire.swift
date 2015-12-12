@@ -119,10 +119,10 @@ class Firework : Drawable {
             let size = random_range(0.003, 0.005)
 
             let f = Flare(velocity_vec: velocity,
-                        duration_secs: duration_secs,
-                        trail_secs: trail_secs,
+                        size: size,
                         color: color, 
-                        size: size)
+                        duration_secs: duration_secs,
+                        trail_secs: trail_secs)
             m_flares.append(f)
         }
     }
