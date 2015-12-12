@@ -14,31 +14,35 @@ private let COLORS: [Color4] = [
     Color4(r: 1.0, g: 0.2, b: 0.2, a: 1.0),
 ]
 
+
 private func get_random_color() -> Color4 {
     let i = random_range(0, COLORS.count - 1)
     return COLORS[i]
 }
 
 
-// Return a position.
+// Return distance traveled
 // Simulate air drag - velocity tapers off exponentially
 private func _get_flight(vel: Float, secs: Float) -> Float {
-    let x = log10f(1 + secs * 10.0)
-    return x * vel
+    let t = log10f(1 + secs * 10.0)
+    return t * vel
 }
 
 
-// Record the starting point of a flare (aka particle).
-// We have the entire trajectory (path) from the beginning.
+// A single projectile / point of light
+// We record its initial parameters, so later we can (re)calculate position at
+// any point in time.  Note the entire struct is immutable.
 struct Flare {
     let velocity_vec: Vector3
+    let size: Float
+    let color: Color4
+
+    // How long the light lasts
     let duration_secs: Float
 
     // How far back the trail goes (plume mode)
     let trail_secs: Float  
 
-    let color: Color4
-    let size: Float
 
     func pointAtTime(secs: Float, orig_pos: Vector3) -> Vector3 {
         var ret = orig_pos
@@ -53,7 +57,8 @@ struct Flare {
     }
 
     func colorAtTime(secs: Float) -> Color4 {
-        // linear fade out is fine
+        // Linear fade out is fine.  Note we can start with a > 1.0, 
+        // so it actually appears exponential.
         let percent = secs / duration_secs
         var ret = color
         ret.a *= (1 - percent)
@@ -96,17 +101,19 @@ class Firework : Drawable {
             // Aspect correction.  Otherwise we get ovalish fireworks.
             velocity.x *= aspect_x
 
-            // tune the velocity
+            // velocity variance
             let speed_variance = random_range(1.0, 1.5)
             velocity.x *= VELOCITY * speed_variance
             velocity.y *= VELOCITY * speed_variance
 
+            // color variance
             var color = orig_color
             color.r += random_range(-0.3, 0.3)
             color.b += random_range(-0.3, 0.3)
             color.g += random_range(-0.3, 0.3)
             color.a = random_range(0.7, 4.0)
 
+            // other variance
             let duration_secs = random_range(0.5, 3.0)
             let trail_secs = random_range(0.3, 0.7)
             let size = random_range(0.003, 0.005)
@@ -124,7 +131,7 @@ class Firework : Drawable {
         if time < start_time {
             return 0
         }
-        return Float(time - start_time) / 1000000
+        return Float(time - start_time) / 1_000_000
     }
 
     func draw(time: TimeUS, 
@@ -157,7 +164,6 @@ class Firework : Drawable {
             // flash out
             color.a = 1.0
         }
-        //print(p)
         let size = flare.size
         draw_triangle_2d(&bv, p, width: size, height: size)
         draw_triangle_color(&bc, color)
@@ -170,7 +176,6 @@ class Firework : Drawable {
     func render_flare_trail(flare: Flare, secs: Float,
                             inout bv: BufferWrapper, inout bc: BufferWrapper) 
     {
-        let PLUME_FADE: Float       = 0.90
         // If this is too small, flickering happens when the dots move
         let PLUME_STEP_SECS: Float  = 0.02
 
@@ -194,7 +199,7 @@ class Firework : Drawable {
             }
             
             size *= 0.95
-            color.a *= PLUME_FADE
+            color.a *= 0.90
             secs -= PLUME_STEP_SECS
             plume_secs += PLUME_STEP_SECS
             if secs < 0 || plume_secs > flare.trail_secs {
@@ -226,9 +231,6 @@ private func draw_triangle_2d(inout b: BufferWrapper,
     b.append_raw(pos.z)
     b.append_raw(1.0)
 }
-
-
-
 
 
 private func draw_triangle_color(inout b: BufferWrapper, _ color: Color4) {
