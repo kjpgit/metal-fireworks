@@ -10,7 +10,7 @@ This uses the "Metal" low-level 3D graphics API.
 
 Video: link:https://youtu.be/a7Brq0Qowxw[Watch On Youtube]
 
-== Latest Release
+== Latest Binary Release
 
 Get a .dmg from the
 link:https://github.com/kjpgit/fireworks/releases/latest[release page] 
@@ -20,7 +20,8 @@ NOTE: Mac OSX 10.11+ is required, due to Metal
 == Features
 
 - 60 FPS (2015 Mac Book)
-- Silky smooth "global time" rendering; no step-based ticks with floating point errors.  
+- Silky smooth "global time" rendering; no step-based ticks with floating
+  point errors.  This also lets you pause and rewind time.
 - Calculates gravity and air drag
 - Uses alpha blending
 - Two kinds of fireworks: twinkle out and plume trail
